@@ -39,50 +39,92 @@ void DriveTrain:: moveDistance(CompassRose direction, int distance, int speed)
     
 }
 
-void DriveTrain:: moveTillWall(CompassRose direction, int distance, int speed)
+boolean DriveTrain:: moveTillWall(CompassRose direction, int distance, int speed)
 {
     //NORTH, NEAST, EAST, SEAST, SOUTH, SWEST, WEST, NWEST
     switch(direction)
     {
         case NORTH:
-            while(HRS04Array[0].ping_cm() > distance && HRS04Array[1].ping_cm() > distance)
+            if(HRS04Array[0].ping_cm() > distance && HRS04Array[1].ping_cm() > distance)
             {
                 eastWheel.forward(speed);
                 westWheel.backward(speed);
+                return false;
             }
-            eastWheel.stop();
-            westWheel.stop();
+            else
+            {
+                eastWheel.stop();
+                westWheel.stop();
+                return true;
+            }
             break;
         
         case EAST:
-            while(HRS04Array[2].ping_cm() > distance && HRS04Array[3].ping_cm() > distance)
+            if(HRS04Array[2].ping_cm() > distance && HRS04Array[3].ping_cm() > distance)
             {
                 northWheel.forward(speed);
                 southWheel.backward(speed);
+                return false;
             }
-            northWheel.stop();
-            southWheel.stop();
+            else
+            {
+                northWheel.stop();
+                southWheel.stop();
+                return true;
+            }
             break;
         
         case SOUTH:
-            while(HRS04Array[4].ping_cm() > distance && HRS04Array[5].ping_cm() > distance)
+            if(HRS04Array[4].ping_cm() > distance && HRS04Array[5].ping_cm() > distance)
             {
                 westWheel.forward(speed);
                 eastWheel.backward(speed);
+                return false;
             }
-            eastWheel.stop();
-            westWheel.stop();
+            else
+            {
+                eastWheel.stop();
+                westWheel.stop();
+                return true;
+            }
             break; 
              
         case WEST:
-            while(HRS04Array[6].ping_cm() > distance && HRS04Array[7].ping_cm() > distance)
+            if(HRS04Array[6].ping_cm() > distance && HRS04Array[7].ping_cm() > distance)
             {
                 southWheel.forward(speed);
                 northWheel.backward(speed);
+                return false;
             }
-            northWheel.stop();
-            southWheel.stop();
+            else
+            {
+                northWheel.stop();
+                southWheel.stop();
+                return true;
+            }
             break; 
+    }
+}
+
+boolean DriveTrain::moveTillCorner(CompassRose direction, int distance, int speed)
+{
+    //NORTH, NEAST, EAST, SEAST, SOUTH, SWEST, WEST, NWEST
+    switch(direction)
+    {
+        case NEAST:
+            if(moveTillWall(NORTH, distance, speed))
+            {
+                return false;
+            }
+            else
+            {
+                if(moveTillWall(EAST, distance, speed))
+                    return true;
+                else
+                    return false;
+            }
+            break;
+        
     }
 }
 

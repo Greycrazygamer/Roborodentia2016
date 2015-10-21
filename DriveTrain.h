@@ -33,10 +33,13 @@ class DriveTrain
         void moveDistance(CompassRose direction, int distance, int speed);
         
         //Moves the robot until the inputted distance(cm) from selected wall
-        void moveTillWall(CompassRose direction, int distance, int speed);
+        //Allowed Directions Are: NORTH, EAST, SOUTH, WEST
+        boolean moveTillWall(CompassRose direction, int distance, int speed);
         
-        //Moves the robot until the inputted distance(cm) from selected corner, with equal distance from each side
-        void moveTillCorner(CompassRose direction, int distance, int speed);
+        //Moves the robot until the inputted distance(cm) from selected corner, 
+        //with equal distance from each side
+        //Allowed Directions Are: NEAST, SEAST, NWEST, SWEST
+        boolean moveTillCorner(CompassRose direction, int distance, int speed);
         
         //moves the robot alng the N/S axis, with equal distance 
         //between the E/W walls... Only N/S will work for direction
