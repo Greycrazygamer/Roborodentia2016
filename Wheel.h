@@ -8,6 +8,7 @@ class Wheel: public Motor
         Encoder qEncoder;
         boolean forwardLoop;
         boolean backwardLoop;
+        long destination;
                
     public:
         Wheel(byte chA, byte chB, byte PWM, int encodA, int encodB);
@@ -18,9 +19,9 @@ class Wheel: public Motor
         void reset();
         
         //moves the wheel forward a distance at PWM speed
-        void moveForward(int distance, byte speed=70);
+        boolean moveForward(int distance, byte speed=70);
         
         //moves the wheel opposite direction a distance at PWM speed
-        void moveBackward(int distance, byte speed=70);  
+        boolean moveBackward(int distance, byte speed=70);  
 };
 

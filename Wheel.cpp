@@ -18,48 +18,43 @@ void Wheel::reset()
     qEncoder.write(0);
 }
 
-void Wheel::moveForward(int distance, byte speed)
+boolean Wheel::moveForward(int distance, byte speed)
 {
-    forward(speed);
     long position = qEncoder.read();
-    long destination;
+    destination;
     if(forwardLoop)
     {
         destination = position + distance;
         forwardLoop = false;
     }
-     else
-    {
-        destination = 0;
-    }
-    
+         
     if(destination > position)
     {
         stop();
         forwardLoop = true;
+        return true;
     }
+    forward(speed);
+    return false;
 }
 
-void Wheel::moveBackward(int distance, byte speed)
+boolean Wheel::moveBackward(int distance, byte speed)
 {
-    backward(speed);
     long position = qEncoder.read();
-    long destination;
     if(backwardLoop)
     {
         destination = position + distance;
         backwardLoop = false;
-    }
-    else
-    {
-        destination = 0;
     }
     
     if(destination < position)
     {
         stop();
         backwardLoop = true;
+        return true;
     }
+    backward(speed);
+    return false;
 }
 
 

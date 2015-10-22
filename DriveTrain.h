@@ -41,9 +41,10 @@ class DriveTrain
         //Allowed Directions Are: NEAST, SEAST, NWEST, SWEST
         boolean moveTillCorner(CompassRose direction, int distance, int speed);
         
-        //moves the robot alng the N/S axis, with equal distance 
+        //moves the robot alng the N/S axis, 
+        //with equal distance +/- the displacement error 
         //between the E/W walls... Only N/S will work for direction
-        void moveCenterField(CompassRose direction, int distance, int speed);
+        boolean moveCenterField(CompassRose direction, int distance, int speed, byte error =5);
         
         //moves the robot back to a 90 degree angle with the walls
         void recenter();

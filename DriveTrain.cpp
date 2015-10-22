@@ -108,7 +108,7 @@ boolean DriveTrain:: moveTillWall(CompassRose direction, int distance, int speed
 
 boolean DriveTrain::moveTillCorner(CompassRose direction, int distance, int speed)
 {
-    //NORTH, NEAST, EAST, SEAST, SOUTH, SWEST, WEST, NWEST
+    //NEAST,SEAST, SWEST, NWEST
     switch(direction)
     {
         case NEAST:
@@ -124,7 +124,74 @@ boolean DriveTrain::moveTillCorner(CompassRose direction, int distance, int spee
                     return false;
             }
             break;
-        
+            
+        case NWEST:
+            if(moveTillWall(NORTH, distance, speed))
+            {
+                return false;
+            }
+            else
+            {
+                if(moveTillWall(WEST, distance, speed))
+                    return true;
+                else
+                    return false;
+            }
+            break;
+            
+         case SEAST:
+            if(moveTillWall(SOUTH, distance, speed))
+            {
+                return false;
+            }
+            else
+            {
+                if(moveTillWall(EAST, distance, speed))
+                    return true;
+                else
+                    return false;
+            }
+            break;
+            
+        case SWEST:
+            if(moveTillWall(SOUTH, distance, speed))
+            {
+                return false;
+            }
+            else
+            {
+                if(moveTillWall(WEST, distance, speed))
+                    return true;
+                else
+                    return false;
+            }
+            break;
     }
 }
+
+boolean DriveTrain::moveCenterField(CompassRose direction, int distance, int speed, byte error)
+{
+    switch(direction)
+    {
+        case NORTH:
+            // robot is drifting to the left
+            if(HRS04Array[2].ping_cm() - HRS04Array[7].ping_cm() > error)
+            {
+                 northWheel.forward();
+                 southWheel.backward();
+            }
+            //robot is drifting to the right
+            else if(HRS04Array[7].ping_cm() - HRS04Array[2].ping_cm() > error)
+            {
+                northWheel.backward();
+                southWheel.forward();
+            }
+            if(eastWheel.moveForward(distance, speed) || westWheel.moveBackward(distance, speed))
+            {
+                return true;
+            }
+            return false;
+    }
+}
+
 
